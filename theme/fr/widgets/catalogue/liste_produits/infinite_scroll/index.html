@@ -1,0 +1,92 @@
+<!-- 
+Template du Widget "Liste des produits"
+-->
+
+<!-- BEGIN: main -->
+<link rel="stylesheet" href="{racine}/{theme}/{lg}/templates/loadmore.css" />
+<script type="text/javascript" src="{cdn}/js/kiubi.api.pfo.jquery-1.0.min.js"></script>
+<script type="text/javascript" src="{racine}/{theme}/{lg}/templates/loadmore.min.js"></script>
+<script type="text/javascript" src="{racine}/{theme}/{lg}/templates/infinite_scroll.min.js"></script>
+<script type="text/javascript" src="{racine}/{theme}/{lg}/templates/product.tpl.min.js"></script>
+<article class="produits" id="listing_{serial}">
+  <!-- BEGIN:intitule -->
+  <header class="post_header">
+    <h1>{intitule}</h1>
+  </header>
+  <!-- END:intitule -->
+  <p><a href="{lien_affichage}=l">Affichage en liste</a> | <a href="{lien_affichage}=v">Affichage en vignette</a></p>
+  <div class="tri">
+    <select name="select" id="select" onchange="window.location.href=this.options[this.selectedIndex].value">
+      <option value="" >Trier par...</option>
+      <option value="{lien_tri}=po">Produit</option>
+      <option value="{lien_tri}=pi">Prix</option>
+      <option value="{lien_tri}=n">Note</option>
+      <option value="{lien_tri}=d">Date de disponibilit&eacute;</option>
+    </select>
+  </div>
+  {liste_produits} 
+
+  <!-- BEGIN: nav2 -->
+  <div class="nav">
+    <!-- BEGIN: premier -->
+    <a href="{lien_premier}" title="premi&egrave;re page">premi&egrave;re page</a>
+    <!-- END: premier -->
+    <!-- BEGIN: precedent -->
+    <a href="{lien_precedent}" title="page pr&eacute;c&eacute;dente">page pr&eacute;c&eacute;dente</a>
+    <!-- END: precedent -->
+    <!-- BEGIN: pages -->
+    <a href="{lien_page}" class="{selected}">{page}</a>
+    <!-- END: pages -->
+    <!-- BEGIN: suivant -->
+    <a href="{lien_suivant}" title="page suivante">page suivante</a>
+    <!-- END: suivant -->
+    <!-- BEGIN: dernier -->
+    <a href="{lien_dernier}" title="derni&egrave;re page">derni&egrave;re page</a>
+    <!-- END: dernier -->
+  </div>
+
+	<script type="text/javascript">
+	
+		var afficher_navigation = parseInt("{widget_afficher_navigation}");
+		var current_page        = parseInt('{num_page}') - 1;
+		var page_count          = parseInt('{nb_pages}');
+
+		if(afficher_navigation == 1 && page_count > 1 && current_page == 0) {		
+			// si la configuration du widget active la navigation, et
+			// si le listing actuel comporte plus d'une seule page, et enfin
+			// si la page actuelle est la première page du listing, alors
+			// on met en place la pagination dynamique
+			
+			jQuery(function($){
+				$("#listing_{serial} .nav").hide();
+				window.a = $('#listing_{serial} ul:first').infinite_scroll({
+					api_endpoint  : '/catalog' + ('{widget_categorie_id}' ? '/categories/{widget_categorie_id}' : '') + '/products.json',
+					api_params    : {
+						'limit'        : parseInt("{widget_limit}"),
+						'sort'         : "{widget_order_api}",
+						'available'    : "{widget_dispo}",
+						'in_stock'     : "{widget_stock}",
+						'extra_fields' : 'price_label,variants,description',
+						'tags'         : "{widget_tags}",
+						'tags_rule'    : ("{widget_tags_logique}" == "et" ? "and" : "or")
+					},
+					threshold : 100, // seuil en px par rapport au bas du listing
+					render_item : function(item) {
+						item.header = (item.header || item.description || "");
+						if("{widget_resume}" && item.header.length > parseInt("{widget_resume}")) {
+							item.header = item.header.substr(0,parseInt("{widget_resume}")) + "...";
+						}
+						var ctx = {
+							'affichage'  : "{widget_affichage}"
+						};
+						return render_product(item, ctx);
+					}
+				});
+			});
+		}
+		
+	</script>
+  
+  <!-- END: nav2 -->
+  </article>
+  <!-- END: main -->

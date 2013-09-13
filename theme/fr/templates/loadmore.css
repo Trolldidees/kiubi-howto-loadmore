@@ -1,0 +1,52 @@
+/*  
+
+Copyright 2013 Troll d'idées. Tous droits réservés.
+Feuille de styles complémentaire pour le tutoriel "loadmore"
+
+*/
+
+.more {
+	padding-bottom:15px;
+	text-align: center;
+}
+
+.more a {
+	background: #333;
+	color: #FFF;
+	cursor: pointer;
+	border: none;
+	font-size: 1em;
+	text-align: center;
+	padding: 10px 15px;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	text-decoration: none;
+}
+
+.more a:hover {
+	background: #689E36;
+}	
+
+/* Style permettant de realiser un affichage en fondu */
+.fadein {
+			animation: fadein 400ms;
+	-webkit-animation: fadein 400ms; /* Safari and Chrome */
+	   -moz-animation: fadein 400ms; /* Firefox */
+		 -o-animation: fadein 400ms; /* Opera */
+}
+        @keyframes fadein { from {opacity:0;} to {opacity:1;} }
+@-webkit-keyframes fadein { from {opacity:0;} to {opacity:1;} } /* Safari and Chrome */
+   @-moz-keyframes fadein { from {opacity:0;} to {opacity:1;} } /* Firefox */
+     @-o-keyframes fadein { from {opacity:0;} to {opacity:1;} } /* Opera */	
+
+.scallup {
+	        animation: scallup 50ms ease-in-out;
+	-webkit-animation: scallup 50ms ease-in-out; /* Safari and Chrome */
+	   -moz-animation: scallup 50ms ease-in-out; /* Firefox */
+	     -o-animation: scallup 50ms ease-in-out; /* Opera */
+}
+        @keyframes scallup { from {         transform: scale(0.7);} to {         transform: scale(1);} }
+@-webkit-keyframes scallup { from { -webkit-transform: scale(0.7);} to { -webkit-transform: scale(1);} } /* Safari and Chrome */
+   @-moz-keyframes scallup { from {    -moz-transform: scale(0.7);} to {    -moz-transform: scale(1);} } /* Firefox */
+     @-o-keyframes scallup { from {      -o-transform: scale(0.7);} to {      -o-transform: scale(1);} } /* Opera */
